@@ -5,6 +5,7 @@ import HeaderIcon from "../_icons/HeaderIcon";
 import FoodMenuAdmin from "../_icons/MenuIcon";
 import TruckIcon from "../_icons/TruckIcon";
 import AvatarIcon from "../_icons/AvatarIcon";
+import DishesCategoryAdmin from "./DishesCategory";
 
 export default function AdminPage() {
   const [activeMenu, setActiveMenu] = useState("food");
@@ -71,20 +72,7 @@ export default function AdminPage() {
               <AvatarIcon />
             </div>
             <div className="flex flex-row bg-[#FFF] justify-between w-full p-4 items-center border-t border-[#E4E4E7] rounded-lg shadow-sm">
-              <div className="flex flex-col">
-                <div className="font-bold text-[20px]">Food Menu</div>
-                <div className="text-[12px] text-[#71717A]">
-                  Manage your restaurant items
-                </div>
-              </div>
-              <div className="flex flex-row w-[525px] justify-between">
-                <div className="w-[300px] h-9 items-center justify-center flex border border-[#E4E4E7] rounded-full">
-                  Calendar
-                </div>
-                <div className="w-[213px] h-9 flex items-center justify-center border-[#E4E4E7] rounded-full">
-                  Add new item
-                </div>
-              </div>
+              <DishesCategoryAdmin />
             </div>
           </div>
         )}
