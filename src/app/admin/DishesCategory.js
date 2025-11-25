@@ -7,14 +7,11 @@ import PlusIcon from "../_icons/plusIcon";
 export default function DishesCategoryAdmin() {
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-
   const [categoryData, setCategoryData] = useState([]);
 
   const getData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:1000/category/get-categories"
-      );
+      const response = await axios.get("http://localhost:1000/category");
       setCategoryData(response.data);
     } catch (err) {
       console.log(err);
@@ -25,7 +22,7 @@ export default function DishesCategoryAdmin() {
     if (!categoryName.trim()) return;
 
     try {
-      await axios.post("http://localhost:1000/category/add-category", {
+      await axios.post("http://localhost:1000/category", {
         categoryName: categoryName,
       });
       setOpen(false);
@@ -34,17 +31,16 @@ export default function DishesCategoryAdmin() {
       console.log(err);
     }
   };
-  console.log(categoryData);
+  // console.log(categoryData);
 
   useEffect(() => {
     getData();
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full gap-6">
       <div className="font-bold text-[20px]">Dishes Category</div>
-
-      <div className="flex flex-wrap gap-3 w-[1123px]">
+      <div className="flex flex-wrap gap-3 w-full">
         {categoryData.map((item, index) => (
           <div
             key={item._id || index}

@@ -6,6 +6,7 @@ import FoodMenuAdmin from "../_icons/MenuIcon";
 import TruckIcon from "../_icons/TruckIcon";
 import AvatarIcon from "../_icons/AvatarIcon";
 import DishesCategoryAdmin from "./DishesCategory";
+import CategoryWithItems from "../_components/CategoryWithItems";
 
 export default function AdminPage() {
   const [activeMenu, setActiveMenu] = useState("food");
@@ -67,12 +68,15 @@ export default function AdminPage() {
 
       <div className="flex-1 px-10 py-6">
         {activeMenu === "food" && (
-          <div className="flex flex-col w-full border-gray-100 h-[948px] items-end gap-6">
+          <div className="flex flex-col w-full gap-6">
             <div className="w-9 h-9">
               <AvatarIcon />
             </div>
             <div className="flex flex-row bg-[#FFF] justify-between w-full p-4 items-center border-t border-[#E4E4E7] rounded-lg shadow-sm">
               <DishesCategoryAdmin />
+            </div>
+            <div>
+              <CategoryWithItems />
             </div>
           </div>
         )}
