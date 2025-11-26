@@ -29,7 +29,7 @@ export default function AddNewFoodCard(props) {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("Food created:", res.data);
+      // console.log("Food created:", res.data);
       setOpen(false);
     } catch (err) {
       console.log("Error creating food:", err);

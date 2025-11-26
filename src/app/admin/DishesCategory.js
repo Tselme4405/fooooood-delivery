@@ -38,7 +38,7 @@ export default function DishesCategoryAdmin() {
   }, []);
 
   return (
-    <div className="flex flex-col w-full gap-6">
+    <div className="flex flex-col w-full gap-6 flex-wrap">
       <div className="font-bold text-[20px]">Dishes Category</div>
       <div className="flex flex-wrap gap-3 w-full">
         {categoryData.map((item, index) => (

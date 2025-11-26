@@ -28,7 +28,7 @@ export default function CategoryWithItems() {
           className="w-full min-h-[325px] p-5 border border-[#E4E4E7] flex flex-col gap-4 bg-white rounded-xl"
         >
           <div className="text-[20px] font-medium">{item.categoryName}</div>
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-4 flex-wrap">
             <AddNewFoodCard categoryId={item._id} />
             {item.foods.map((food) => (
               <AdminFoodCard key={food._id} {...food} />

@@ -82,7 +82,7 @@ export default function AdminPage() {
         )}
 
         {activeMenu === "orders" && (
-          <div className="flex flex-col w-full h-[948px] gap-6">
+          <div className="flex flex-col w-full h-[948px] gap-6 flex-wrap">
             <div className="flex justify-end">
               <div className="w-9 h-9">
                 <AvatarIcon />
