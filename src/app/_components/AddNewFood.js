@@ -8,7 +8,6 @@ import axios from "axios";
 
 export default function AddNewFoodCard(props) {
   const [open, setOpen] = useState(false);
-
   const foodSchema = Yup.object().shape({
     foodName: Yup.string().required("Food Name Required!"),
     foodPrice: Yup.string().required("Food Price Required!"),
@@ -114,15 +113,17 @@ export default function AddNewFoodCard(props) {
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="text-[14px] font">Food image</div>
-                  <input
-                    type="file"
-                    name="foodImage"
-                    onChange={(e) =>
-                      setFieldValue("foodImage", e.target.files[0])
-                    }
-                    className="border p-2 rounded-md w-full h-[138px] bg-gray-100"
-                    accept="image/*"
-                  />
+                  <div>
+                    <input
+                      type="file"
+                      name="foodImage"
+                      onChange={(e) =>
+                        setFieldValue("foodImage", e.target.files[0])
+                      }
+                      className="border p-2 rounded-md w-full h-[138px] bg-gray-100"
+                      accept="image/*"
+                    />
+                  </div>
                 </div>
 
                 <div className="flex justify-end gap-3 w-full h-[64px] items-end">
