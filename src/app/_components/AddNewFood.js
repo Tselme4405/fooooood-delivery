@@ -6,37 +6,67 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
-export default function AddNewFoodCard(props) {
+export default function AddNewFoodCard({ categoryId }) {
   const [open, setOpen] = useState(false);
+  const [preview, setPreview] = useState(null);
+
   const foodSchema = Yup.object().shape({
     foodName: Yup.string().required("Food Name Required!"),
-    foodPrice: Yup.string().required("Food Price Required!"),
+    foodPrice: Yup.number()
+      .required("Food Price Required!")
+      .typeError("Must be a number"),
     foodIngredients: Yup.string().required("Ingredients is Required!"),
     foodImage: Yup.mixed().required("Food Image is required"),
   });
 
-  const handleSubmit = async (values, categoryId) => {
-    try {
-      const formData = new FormData();
-      formData.append("foodName", values.foodName);
-      formData.append("foodPrice", values.foodPrice);
-      formData.append("foodIngredients", values.foodIngredients);
-      formData.append("foodImage", values.foodImage);
-      formData.append("category", props.categoryId);
+  // -----------------------
+  // CLOUDINARY UPLOAD
+  // -----------------------
+  const uploadToCloudinary = async (file) => {
+    if (!file) throw new Error("No file selected");
 
-      const res = await axios.post("http://localhost:1000/food", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default"); // unsigned preset нэр
+
+    const CLOUD_NAME = "dkrwhhldd"; // таны Cloud Name
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      { method: "POST", body: data }
+    );
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      console.error("Cloudinary upload error:", json);
+      throw new Error(json.error?.message || "Upload failed");
+    }
+
+    return json.secure_url;
+  };
+
+  const handleSubmit = async (values) => {
+    try {
+      const imageUrl = await uploadToCloudinary(values.foodImage);
+
+      await axios.post("http://localhost:1000/food", {
+        foodName: values.foodName,
+        foodPrice: values.foodPrice,
+        foodIngredients: values.foodIngredients,
+        foodImage: imageUrl,
+        category: categoryId,
       });
 
-      // console.log("Food created:", res.data);
       setOpen(false);
+      setPreview(null);
     } catch (err) {
-      console.log("Error creating food:", err);
+      console.error(err);
+      alert("Failed to add food. Please try again.");
     }
   };
 
   return (
-    <div className="w-[270.75px] h-[241px] border rounded-xl border-red-500 flex flex-col justify-center items-center gap-6">
+    <div className="w-[270px] h-[241px] border rounded-xl border-red-500 flex flex-col justify-center items-center gap-6">
       <div
         onClick={() => setOpen(true)}
         className="w-10 h-10 rounded-full bg-red-500 flex justify-center items-center"
@@ -46,8 +76,9 @@ export default function AddNewFoodCard(props) {
       <div className="text-[14px] max-w-[154px] text-center">
         Add new Dish to Appetizers
       </div>
+
       {open && (
-        <div className="fixed inset-0 bg-black/40 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
           <Formik
             initialValues={{
               foodName: "",
@@ -57,26 +88,30 @@ export default function AddNewFoodCard(props) {
             }}
             validationSchema={foodSchema}
             onSubmit={handleSubmit}
-            className=" fixed inset-0 bg-black/40 flex justify-center items-center"
           >
             {({ setFieldValue }) => (
               <Form className="bg-white p-6 rounded-xl shadow-xl w-[472px] h-[596px] flex flex-col gap-6 relative justify-between">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-semibold">Add new Dish to</h2>
+                  <h2 className="text-xl font-semibold">Add new Dish</h2>
                   <button
-                    onClick={() => setOpen(false)}
+                    type="button"
+                    onClick={() => {
+                      setOpen(false);
+                      setPreview(null);
+                    }}
                     className="text-black text-xl hover:text-black w-9 h-9 rounded-full bg-[#F4F4F5]"
                   >
                     ✕
                   </button>
                 </div>
+
                 <div className="flex flex-row gap-6">
                   <div className="flex flex-col gap-2">
                     <div className="text-[14px]">Food name</div>
                     <Field
                       name="foodName"
                       placeholder="Type food name"
-                      className="border rounded-md h-[38px] p-2 "
+                      className="border rounded-md h-[38px] p-2"
                     />
                     <ErrorMessage
                       name="foodName"
@@ -98,6 +133,7 @@ export default function AddNewFoodCard(props) {
                     />
                   </div>
                 </div>
+
                 <div className="flex flex-col gap-2">
                   <div>Ingredients</div>
                   <Field
@@ -111,27 +147,32 @@ export default function AddNewFoodCard(props) {
                     className="text-red-500 text-sm"
                   />
                 </div>
+
                 <div className="flex flex-col gap-2">
                   <div className="text-[14px] font">Food image</div>
-                  <div>
-                    <input
-                      type="file"
-                      name="foodImage"
-                      onChange={(e) =>
-                        setFieldValue("foodImage", e.target.files[0])
-                      }
-                      className="border p-2 rounded-md w-full h-[138px] bg-gray-100"
-                      accept="image/*"
-                    />
-                  </div>
-                  {values.foodImage && (
-                    // eslint-disable-next-line @next/next/no-img-element
+                  <input
+                    type="file"
+                    name="foodImage"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setFieldValue("foodImage", file);
+                      setPreview(URL.createObjectURL(file));
+                    }}
+                    className="border p-2 rounded-md w-full h-[138px] bg-gray-100"
+                  />
+                  {preview && (
                     <img
-                      src={URL.values.foodImage}
-                      alt="preview"
-                      className="w-full h-[150px] object-cover rounded-md border"
+                      src={preview}
+                      alt="Preview"
+                      className="mt-2 w-full h-[138px] object-cover rounded-md"
                     />
                   )}
+                  <ErrorMessage
+                    name="foodImage"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
                 </div>
 
                 <div className="flex justify-end gap-3 w-full h-[64px] items-end">
