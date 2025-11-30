@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import PlusIcon from "../_icons/plusIcon";
+import PlusIcon from "./_icons/plusIcon";
 
 export default function DishesCategoryAdmin() {
   const [open, setOpen] = useState(false);

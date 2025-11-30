@@ -1,6 +1,4 @@
-import FoodCard from "./_components/FoodCard";
 import AdminPage from "./admin/page";
-import SignUpMain from "./signup/page";
 import UserHomePage from "./User/page";
 
 export default function Login() {
@@ -8,7 +6,7 @@ export default function Login() {
     <div>
       {/* <AdminPage /> */}
       <UserHomePage />
-      {/* <SignUpMain /> */}
+      {/* <SignupForm /> */}
     </div>
   );
 }

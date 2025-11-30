@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import SignUpLayout from "./SignUpLayout";
-import Mail from "@/app/_components/mail";
-import PasswordTwo from "@/app/_components/password";
+import Mail from "@/app/admin/_components/mail";
+import PasswordTwo from "@/app/admin/_components/password";
 import axios from "axios";
 
 export default function CombinedSignUp() {

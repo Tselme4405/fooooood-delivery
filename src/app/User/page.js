@@ -1,11 +1,16 @@
+"use client";
+
 import Image from "next/image";
-import Header from "../_features/Header";
+import UserFoodCard from "./_components/FoodCard";
+import Header from "./_features/Header";
+import CategoryWithItemsUser from "./CategoryWithItems";
 
 export default function UserHomePage() {
   return (
-    <div>
+    // bg-[#404040]
+    <div className="flex flex-col w-100% items-center bg-[#404040]">
       <Header />
-      <div className="relative w-full aspect-[1440/570]">
+      <div className="relative w-full aspect-1440/570">
         <Image
           src="/UserMainPoster.png"
           alt="UserMainPoster"
@@ -14,6 +19,8 @@ export default function UserHomePage() {
           priority
         />
       </div>
+      <CategoryWithItemsUser />
+      {/* <UserFoodCard /> */}
     </div>
   );
 }

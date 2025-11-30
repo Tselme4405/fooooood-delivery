@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import HeaderIcon from "../_icons/HeaderIcon";
-import FoodMenuAdmin from "../_icons/MenuIcon";
-import TruckIcon from "../_icons/TruckIcon";
-import AvatarIcon from "../_icons/AvatarIcon";
+import HeaderIcon from "./_icons/HeaderIcon";
+import FoodMenuAdmin from "./_icons/MenuIcon";
+import TruckIcon from "./_icons/TruckIcon";
+import AvatarIcon from "./_icons/AvatarIcon";
 import DishesCategoryAdmin from "./DishesCategory";
-import CategoryWithItems from "../_components/CategoryWithItems";
+import CategoryWithItems from "./_components/CategoryWithItems";
 
 export default function AdminPage() {
   const [activeMenu, setActiveMenu] = useState("food");

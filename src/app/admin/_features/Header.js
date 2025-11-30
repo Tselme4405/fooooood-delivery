@@ -1,8 +1,8 @@
-import ChevronRight from "../_icons/ChevronRightGray";
-import HeaderIcon from "../_icons/HeaderIcon";
-import MapPin from "../_icons/MapPin";
-import CartIcon from "../_icons/ShoppingCart";
-import UserIcon from "../_icons/User";
+import ChevronRight from "../../admin/_icons/ChevronRightGray";
+import HeaderIcon from "../../admin/_icons/HeaderIcon";
+import MapPin from "../../admin/_icons/MapPin";
+import CartIcon from "../../admin/_icons/ShoppingCart";
+import UserIcon from "../../admin/_icons/User";
 
 export default function Header() {
   return (

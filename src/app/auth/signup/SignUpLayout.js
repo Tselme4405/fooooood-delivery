@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import ChevronLeft from "../_icons/ChevronLeft";
+import ChevronLeft from "../admin/_icons/ChevronLeft";
 import { useRouter } from "next/navigation";
 
 export default function SignUpLayout({

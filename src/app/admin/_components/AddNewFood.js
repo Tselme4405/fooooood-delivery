@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -19,15 +20,12 @@ export default function AddNewFoodCard({ categoryId }) {
     foodImage: Yup.mixed().required("Food Image is required"),
   });
 
-  // -----------------------
-  // CLOUDINARY UPLOAD
-  // -----------------------
   const uploadToCloudinary = async (file) => {
     if (!file) throw new Error("No file selected");
 
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "ml_default"); 
+    data.append("upload_preset", "ml_default");
 
     const CLOUD_NAME = "dkrwhhldd";
     const res = await fetch(
@@ -150,24 +148,33 @@ export default function AddNewFoodCard({ categoryId }) {
 
                 <div className="flex flex-col gap-2">
                   <div className="text-[14px] font">Food image</div>
-                  <input
-                    type="file"
-                    name="foodImage"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      setFieldValue("foodImage", file);
-                      setPreview(URL.createObjectURL(file));
-                    }}
-                    className="border p-2 rounded-md w-full h-[138px] bg-gray-100"
-                  />
-                  {preview && (
-                    <img
-                      src={preview}
-                      alt="Preview"
-                      className="mt-2 w-full h-[138px] object-cover rounded-md"
+
+                  <div className="relative w-full h-[138px] border rounded-md bg-gray-100 overflow-hidden">
+                    <input
+                      type="file"
+                      name="foodImage"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        setFieldValue("foodImage", file);
+                        setPreview(URL.createObjectURL(file));
+                      }}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                     />
-                  )}
+
+                    {preview ? (
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex justify-center items-center text-gray-500 pointer-events-none">
+                        Upload image
+                      </div>
+                    )}
+                  </div>
+
                   <ErrorMessage
                     name="foodImage"
                     component="div"

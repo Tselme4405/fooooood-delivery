@@ -26,6 +26,7 @@ export default function AdminFoodCard({
 }) {
   const [open, setOpen] = useState(false);
   const [foodId, setFoodId] = useState("");
+  const [preview, setPreview] = useState(foodImage);
 
   const [categoryData, setCategoryData] = useState([]);
   const id = _id;
@@ -103,7 +104,12 @@ export default function AdminFoodCard({
           }}
           className="w-11 h-11 flex items-center justify-center bg-white rounded-full"
         >
-          <EditIcon />
+          <EditIcon
+            onClick={() => {
+              setPreview(foodImage);
+              setOpen(true);
+            }}
+          />
         </div>
       </div>
       <div className="h-[60px] w-full bg-white flex flex-col gap-2”">
@@ -229,16 +235,32 @@ export default function AdminFoodCard({
                 </div>
                 <div className="flex flex-row justify-between gap-2">
                   <div className="text-[14px] font">Food image</div>
-                  <div>
+
+                  <div className="relative w-[288px] h-[138px] border rounded-md bg-gray-100 overflow-hidden">
                     <input
                       type="file"
                       name="foodImage"
-                      onChange={(e) =>
-                        setFieldValue("foodImage", e.target.files[0])
-                      }
-                      className="border p-2 rounded-md w-[288px] h-[138px] bg-gray-100"
                       accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        setFieldValue("foodImage", file);
+                        if (file) setPreview(URL.createObjectURL(file));
+                      }}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                     />
+
+                    {preview ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex justify-center items-center text-gray-500 pointer-events-none">
+                        Upload image
+                      </div>
+                    )}
                   </div>
                 </div>
 
