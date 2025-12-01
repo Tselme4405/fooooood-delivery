@@ -31,7 +31,6 @@ export default function CategoryWithItemsUser() {
             {item.categoryName}
           </div>
 
-          {/* 1 мөрөнд яг 3 card */}
           <div className="grid grid-cols-3 gap-9">
             {item.foods.map((food) => (
               <UserFoodCard key={food._id} {...food} />

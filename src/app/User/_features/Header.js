@@ -1,8 +1,6 @@
-import ChevronRight from "../../admin/_icons/ChevronRightGray";
 import HeaderIcon from "../../admin/_icons/HeaderIcon";
-import MapPin from "../../admin/_icons/MapPin";
-import CartIcon from "../../admin/_icons/ShoppingCart";
 import UserIcon from "../../admin/_icons/User";
+import CartItems from "./CartItems";
 import DeliverLocation from "./DeliveryLocation";
 
 export default function Header() {
@@ -25,9 +23,8 @@ export default function Header() {
       <div className="flex flex-row items-center">
         <div className="flex gap-3">
           <DeliverLocation />
-          <div className="w-9 h-9 flex items-center justify-center bg-white rounded-full">
-            <CartIcon />
-          </div>
+          <CartItems />
+
           <div className="w-9 h-9 flex items-center justify-center bg-red-500 rounded-full">
             <UserIcon />
           </div>

@@ -47,7 +47,7 @@ export default function CombinedSignUp() {
 
     console.log("FINAL FORM DATA:", values);
 
-    router.push("/login");
+    router.push("/auth/login");
   };
   return (
     <Formik

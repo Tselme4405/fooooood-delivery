@@ -7,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
-export default function AddNewFoodCard({ categoryId }) {
+export default function AddNewFoodCard({ categoryId, categoryName }) {
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState(null);
 
@@ -72,7 +72,7 @@ export default function AddNewFoodCard({ categoryId }) {
         <PlusIcon />
       </div>
       <div className="text-[14px] max-w-[154px] text-center">
-        Add new Dish to Appetizers
+        Add new Dish to <p>{categoryName}</p>
       </div>
 
       {open && (

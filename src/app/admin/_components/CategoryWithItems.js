@@ -20,7 +20,10 @@ export default function CategoryWithItems() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getData();
   }, []);
-  // console.log(categoryData);
+  console.log(
+    "132412categoryDatacategoryDatacategoryDatacategoryData",
+    categoryData
+  );
   return (
     <div className="flex flex-col gap-4 w-full min-w-[1123px]">
       {categoryData.map((item, index) => (
@@ -28,11 +31,21 @@ export default function CategoryWithItems() {
           key={item._id || index}
           className="w-full min-h-[325px] p-5 border border-[#E4E4E7] flex flex-col gap-4 bg-white rounded-xl"
         >
-          <div className="text-[20px] font-medium">{item.categoryName}</div>
+          <div className="text-[20px] font-medium">
+            {item.categoryName} ({item.foods.length})
+          </div>
+
           <div className="flex flex-row gap-4 flex-wrap">
-            <AddNewFoodCard categoryId={item._id} />
+            <AddNewFoodCard
+              categoryId={item._id}
+              categoryName={item.categoryName}
+            />
             {item.foods.map((food) => (
-              <AdminFoodCard key={food._id} {...food} />
+              <AdminFoodCard
+                key={food._id}
+                {...food}
+                categoryData={categoryData}
+              />
             ))}
           </div>
         </div>

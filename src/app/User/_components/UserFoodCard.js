@@ -4,14 +4,18 @@ import { useState } from "react";
 import PlusIcon from "../_icons/plusIcon";
 import XIcon from "../_icons/XIcon";
 import { XCircleIcon } from "lucide-react";
+import { number } from "yup";
 
 export default function UserFoodCard({
   foodName,
   foodPrice,
   foodIngredients,
   foodImage,
+  _id,
 }) {
   const [open, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState();
+  console.log("id", _id);
   return (
     <div className="w-[397px] bg-white rounded-[20px] p-4 gap-5 flex flex-col">
       <div
@@ -53,10 +57,13 @@ export default function UserFoodCard({
             <div className="w-[377px] h-[364px] bg-black rounded-xl"></div>
             {/* product info */}
             <div className="w-[377px] h-[364px] flex flex-col items-end bg-gray-100">
-              <div className="w-9 h-9 border rounded-full border-[#E4E4E7] flex justify-center items-center">
+              <div
+                onClick={() => setOpen(false)}
+                className="cursor-pointer w-9 h-9 border rounded-full border-[#E4E4E7] flex justify-center items-center"
+              >
                 <XIcon />
               </div>
-              <div className="flex flex-col justify-between">
+              <div className="flex flex-col justify-between h-[328px]">
                 <div className="flex flex-col gap-3">
                   <div className="text-[30px] text-red-500">
                     Sunshine Stackers{" "}
@@ -66,8 +73,14 @@ export default function UserFoodCard({
                     powdered sugar.
                   </div>
                 </div>
-                <div>
-                  <div></div>
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-row">
+                    <div>
+                      <div className="text-[16px]">Total price</div>
+                      <div className="text-[24px]">12.99$</div>
+                    </div>
+                    <div></div>
+                  </div>
                   <button className="text-white bg-black w-full h-[44px] rounded-full">
                     Add to Cart
                   </button>

@@ -1,7 +1,7 @@
 "use client";
 
+import ChevronLeft from "@/app/admin/_icons/ChevronLeft";
 import Image from "next/image";
-import ChevronLeft from "../admin/_icons/ChevronLeft";
 import { useRouter } from "next/navigation";
 
 export default function LoginLayout({

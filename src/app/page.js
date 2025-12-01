@@ -1,12 +1,13 @@
+import { SignupForm } from "@/components/email";
 import AdminPage from "./admin/page";
 import UserHomePage from "./User/page";
 
 export default function Login() {
   return (
     <div>
-      {/* <AdminPage /> */}
+      <AdminPage />
       <UserHomePage />
-      {/* <SignupForm /> */}
+      <SignupForm />
     </div>
   );
 }

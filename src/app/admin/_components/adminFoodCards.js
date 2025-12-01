@@ -22,13 +22,14 @@ export default function AdminFoodCard({
   foodIngredients,
   foodImage,
   category,
+  categoryData,
   _id,
 }) {
   const [open, setOpen] = useState(false);
   const [foodId, setFoodId] = useState("");
   const [preview, setPreview] = useState(foodImage);
 
-  const [categoryData, setCategoryData] = useState([]);
+  // const [categoryData, setCategoryData] = useState([]);
   const id = _id;
   const foodSchema = Yup.object().shape({
     foodName: Yup.string().required("Food Name Required!"),
@@ -48,48 +49,75 @@ export default function AdminFoodCard({
     }
   };
 
+  const uploadToCloudinary = async (file) => {
+    if (!file) throw new Error("No file selected");
+
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ml_default");
+
+    const CLOUD_NAME = "dkrwhhldd";
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      { method: "POST", body: data }
+    );
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      console.error("Cloudinary upload error:", json);
+      throw new Error(json.error?.message || "Upload failed");
+    }
+
+    return json.secure_url;
+  };
+
   const handleSubmit = async (values) => {
+    console.log(values);
     // console.log(_id);
     try {
-      // const formData = {
-      //   foodName: values.foodName,
-      //   foodPrice: values.foodPrice,
-      //   foodIngredients: values.foodIngredients,
-      //   id: id,
-      //   foodImage: values.foodImage,
-      // };
-      const formData = new FormData();
-      formData.append("foodName", values.foodName);
-      formData.append("foodPrice", values.foodPrice);
-      formData.append("foodIngredients", values.foodIngredients);
-      formData.append("foodImage", values.foodImage);
-      formData.append("id", id);
+      const imageUrl = await uploadToCloudinary(values.foodImage);
+
+      const formData = {
+        foodName: values.foodName,
+        foodPrice: values.foodPrice,
+        foodIngredients: values.foodIngredients,
+        id: id,
+        foodImage: imageUrl,
+      };
+      // const formData = new FormData();
+      // formData.append("foodName", values.foodName);
+      // formData.append("foodPrice", values.foodPrice);
+      // formData.append("foodIngredients", values.foodIngredients);
+      // formData.append("foodImage", values.foodImage);
+      // formData.append("id", id);
       // console.log(formData);
       const res = await axios.put("http://localhost:1000/food", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "application/json" },
       });
 
-      console.log("Food created:", res.data);
+      // console.log("Food created:", res.data);
       setOpen(false);
     } catch (err) {
       console.log("Error |updating food:", err);
     }
   };
 
-  const getCategories = async () => {
-    try {
-      const response = await axios.get("http://localhost:1000/category");
-      setCategoryData(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getCategories = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:1000/category");
+  //     setCategoryData(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // console.log(categoryData);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getCategories();
-  }, []);
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/set-state-in-effect
+  //   getCategories();
+  // }, []);
+
   return (
     <div className=" p-4 w-[270.75px] h-[241px] border border-[#E4E4E7] rounded-[20px] gap-5 flex flex-col">
       <div

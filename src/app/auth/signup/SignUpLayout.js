@@ -1,7 +1,7 @@
 "use client";
 
+import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import ChevronLeft from "../admin/_icons/ChevronLeft";
 import { useRouter } from "next/navigation";
 
 export default function SignUpLayout({
@@ -12,7 +12,7 @@ export default function SignUpLayout({
   const router = useRouter();
 
   const navigateLoginPage = () => {
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   return (

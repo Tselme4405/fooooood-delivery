@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -31,25 +32,38 @@ export default function DishesCategoryAdmin() {
       console.log(err);
     }
   };
+  const totalFoods = categoryData.reduce(
+    (sum, item) => sum + item.foods.length,
+    0
+  );
   // console.log(categoryData);
 
   useEffect(() => {
     getData();
   }, []);
+  // console.log("CategoryDataCategoryDataCategoryDataCategoryData", categoryData);
 
   return (
     <div className="flex flex-col w-full gap-6 flex-wrap">
       <div className="font-bold text-[20px]">Dishes Category</div>
       <div className="flex flex-wrap gap-3 w-full">
+        <div className="text-center h-9 min-w-[140px] rounded-full border border-red-500 flex justify-center items-center gap-2">
+          All dishes{" "}
+          <div className="bg-black text-white rounded-full text-[12px] min-w-[28px] h-[20px] flex items-center justify-center">
+            {totalFoods}
+          </div>
+        </div>
         {categoryData.map((item, index) => (
           <div
             key={item._id || index}
-            className="p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center"
+            className="p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center gap-2"
           >
-            {item.categoryName}
+            {item.categoryName}{" "}
+            <div className="bg-black text-white rounded-full text-[12px] min-w-[28px] h-[20px] flex items-center justify-center">
+              {item.foods.length}
+            </div>
           </div>
         ))}
-
         <button
           onClick={() => setOpen(true)}
           className="w-9 h-9 rounded-full flex items-center justify-center text-white text-2xl bg-red-500"
