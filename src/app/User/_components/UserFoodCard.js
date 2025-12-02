@@ -3,8 +3,6 @@
 import { useState } from "react";
 import PlusIcon from "../_icons/plusIcon";
 import XIcon from "../_icons/XIcon";
-import { XCircleIcon } from "lucide-react";
-import { number } from "yup";
 import QuantityMinusIcon from "../_icons/quantityMinusIcon";
 import QuantityPlusIcon from "../_icons/quantityPlusIcon";
 
@@ -18,34 +16,39 @@ export default function UserFoodCard({
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  const increase = () => {
-    setQuantity((q) => q + 1);
-  };
-
-  const decrease = () => {
-    setQuantity((q) => (q > 1 ? q - 1 : 1));
-  };
+  const increase = () => setQuantity((q) => q + 1);
+  const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
   const totalPrice = foodPrice * quantity;
 
-  console.log("id", _id);
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const exist = cart.find((item) => item._id === _id);
+
+    if (exist) {
+      exist.quantity += quantity;
+    } else {
+      cart.push({ _id, quantity });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    setOpen(false);
+  };
+
   return (
     <div className="w-[397px] bg-white rounded-[20px] p-4 gap-5 flex flex-col">
       <div
-        style={{
-          backgroundImage: `url(${foodImage})`,
-        }}
+        style={{ backgroundImage: `url(${foodImage})` }}
         className="h-[210px] bg-cover rounded-xl bg-center p-5 flex justify-end items-end"
       >
         <div
           onClick={() => setOpen(true)}
-          className="
-       cursor-pointer w-11 h-11 rounded-full flex justify-center items-center bg-white"
+          className="cursor-pointer w-11 h-11 rounded-full flex justify-center items-center bg-white"
         >
           <PlusIcon />
         </div>
       </div>
-      {/* Description */}
+
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between">
           <div className="text-[24px] text-red-500">{foodName}</div>
@@ -53,14 +56,10 @@ export default function UserFoodCard({
         </div>
         <div className="text-[14px] w-full">{foodIngredients}</div>
       </div>
+
       {open && (
         <div
-          className="
-            fixed inset-0 
-            bg-black/40 
-            flex items-center justify-center 
-            z-50
-          "
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
           onClick={() => setOpen(false)}
         >
           <div
@@ -68,12 +67,10 @@ export default function UserFoodCard({
             className="w-[826px] h-[412px] bg-white p-6 flex flex-row gap-6"
           >
             <div
-              style={{
-                backgroundImage: `url(${foodImage})`,
-              }}
+              style={{ backgroundImage: `url(${foodImage})` }}
               className="w-[377px] h-[364px] bg-cover rounded-xl"
             ></div>
-            {/* product info */}
+
             <div className="w-[377px] h-[364px] flex flex-col bg-gray-100 p-3">
               <div
                 onClick={() => setOpen(false)}
@@ -112,7 +109,10 @@ export default function UserFoodCard({
                     </div>
                   </div>
 
-                  <button className="text-white bg-black w-full h-[44px] rounded-full">
+                  <button
+                    onClick={addToCart}
+                    className="text-white bg-black w-full h-[44px] rounded-full"
+                  >
                     Add to Cart
                   </button>
                 </div>
