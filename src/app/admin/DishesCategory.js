@@ -19,6 +19,15 @@ export default function DishesCategoryAdmin() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:1000/category/${id}`);
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!categoryName.trim()) return;
 
@@ -56,14 +65,22 @@ export default function DishesCategoryAdmin() {
         {categoryData.map((item, index) => (
           <div
             key={item._id || index}
-            className="cursor-pointer p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center gap-2"
+            className="relative group cursor-pointer p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center gap-2"
           >
-            {item.categoryName}{" "}
+            {item.categoryName}
             <div className="bg-black text-white rounded-full text-[12px] min-w-[28px] h-[20px] flex items-center justify-center">
               {item.foods.length}
             </div>
+
+            <button
+              onClick={() => handleDelete(item._id)}
+              className="absolute -right-3 -top-3 bg-red-500 w-6 h-6 rounded-full text-white text-sm hidden group-hover:flex items-center justify-center"
+            >
+              ✕
+            </button>
           </div>
         ))}
+
         <button
           onClick={() => setOpen(true)}
           className="cursor-pointer w-9 h-9 rounded-full flex items-center justify-center text-white text-2xl bg-red-500"
