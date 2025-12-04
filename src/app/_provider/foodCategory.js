@@ -20,7 +20,6 @@ export const FoodCategoryProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // GET
   const fetchCategories = async () => {
     try {
       setLoading(true);
@@ -33,7 +32,6 @@ export const FoodCategoryProvider = ({ children }) => {
     }
   };
 
-  // CREATE
   const createCategory = async (name) => {
     try {
       const token = localStorage.getItem("token") || "";
@@ -44,19 +42,18 @@ export const FoodCategoryProvider = ({ children }) => {
       );
 
       toast.success("Category created!");
-      fetchCategories(); // refresh
+      fetchCategories();
     } catch (err) {
       console.log(err);
       toast.error("Create failed");
     }
   };
 
-  // DELETE
   const deleteCategory = async (id) => {
     try {
       await axios.delete(`http://localhost:1000/category/${id}`);
       toast.success("Category deleted!");
-      fetchCategories(); // refresh
+      fetchCategories();
     } catch (err) {
       toast.error("Delete failed!");
     }

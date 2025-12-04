@@ -11,7 +11,6 @@ export default function DishesCategoryAdmin() {
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
 
-  // CREATE submit
   const handleSubmit = async () => {
     if (!categoryName.trim()) return;
 
