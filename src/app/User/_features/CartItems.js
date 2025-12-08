@@ -63,7 +63,7 @@ export default function CartItems() {
 
     try {
       const res = await axios.post(
-        "http://localhost:1000/order",
+        "http://localhost:1000/orders",
         {
           FoodOrderItems: cartItems.map((i) => ({
             food: i._id,

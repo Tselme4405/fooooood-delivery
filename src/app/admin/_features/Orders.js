@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import OrderInfo from "../_components/OrderInfo";
+import OrderInfo from "../_components/OrderInfoFoodCard";
 
 export default function Orders() {
   const [ordersData, setordersData] = useState([]);
@@ -23,7 +23,16 @@ export default function Orders() {
   }, []);
   return (
     <div>
-      <OrderInfo />
+      {/* <OrderInfo /> */}
+      {ordersData.map((order) => (
+        <OrderInfo
+          key={order._id}
+          {...order}
+          ordersData={ordersData}
+          email={order.user?.email}
+          getData={getData}
+        />
+      ))}
     </div>
   );
 }

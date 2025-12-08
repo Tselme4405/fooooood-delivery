@@ -45,7 +45,7 @@ export default function DishesCategoryAdmin() {
 
             <button
               onClick={() => deleteCategory(item._id)}
-              className="absolute -right-3 -top-3 bg-red-500 w-6 h-6 rounded-full text-white text-sm hidden group-hover:flex items-center justify-center"
+              className="cursor-pointer absolute -right-3 -top-3 bg-red-500 w-6 h-6 rounded-full text-white text-sm hidden group-hover:flex items-center justify-center"
             >
               ✕
             </button>
