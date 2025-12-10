@@ -16,9 +16,9 @@ export default function LoginPage() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Имэйл хаяг буруу байна")
-      .required("Имэйл шаардлагатай"),
-    password: Yup.string().required("Нууц үг шаардлагатай"),
+      .email("email hayg buruu baina")
+      .required("email oruulna uu!!"),
+    password: Yup.string().required("nuuts ug oruulna uu"),
   });
 
   const handleSubmit = async (values) => {
@@ -29,14 +29,14 @@ export default function LoginPage() {
       );
 
       localStorage.setItem("token", response.data.token);
-      toast.success("Амжилттай нэвтэрлээ!");
+      toast.success("Amjilttai newterlee!");
       router.push("/");
     } catch (err) {
       console.log(err.response?.data);
       if (err.response?.data) {
         toast.error(err.response.data);
       } else {
-        toast.error("Нэвтрэлт амжилтгүй боллоо");
+        toast.error("Newtrelt Amjiltgui!");
       }
     }
   };

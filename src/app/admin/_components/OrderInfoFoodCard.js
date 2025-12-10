@@ -2,7 +2,7 @@
 
 import { ChevronDown, ChevronsUpDown } from "lucide-react";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   DropdownMenu,
@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "react-toastify";
 
 export default function OrderInfo({
   _id,
@@ -21,16 +22,11 @@ export default function OrderInfo({
   status,
   getData,
 }) {
-  const statusBorderColors = {
-    pending: "#EF4444",
-    delivered: "rgba(24, 186, 81, 0.50)",
-    canceled: "#E4E4E7",
-  };
-
+  const [openFoods, setOpenFoods] = useState(false);
   const [currentStatus, setCurrentStatus] = useState(status);
   const [isSelected, setIsSelected] = useState(false);
-
   const statuses = ["pending", "delivered", "cancelled"];
+  const [foods, setFoods] = useState([]);
 
   const updateStatus = async (newStatus) => {
     try {
@@ -39,11 +35,26 @@ export default function OrderInfo({
       });
 
       setCurrentStatus(newStatus);
+      toast.success("Status amjilttai shineclegdlee");
       getData();
     } catch (err) {
       console.log("err", err);
     }
   };
+
+  const getFoods = async () => {
+    try {
+      const res = await axios.get("http://localhost:1000/food");
+      setFoods(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getFoods();
+  });
 
   return (
     <div
@@ -64,8 +75,38 @@ export default function OrderInfo({
 
       <div className="min-w-[213.5px] p-4">{email}</div>
 
-      <div className="w-[160px] p-4 flex justify-between">
-        {FoodOrderItems?.length} foods <ChevronDown />
+      <div className="w-[160px] p-4 relative">
+        <div
+          className="flex justify-between cursor-pointer"
+          onClick={() => setOpenFoods(!openFoods)}
+        >
+          {FoodOrderItems?.length} foods <ChevronDown />
+        </div>
+        {openFoods && (
+          <div className="absolute left-0 top-full mt-2 bg-white shadow-lg rounded p-3 border text-sm z-50 w-[263px] flex flex-col gap-3">
+            {FoodOrderItems?.map((f) => {
+              const currentFood = foods?.find(
+                (food) => food._id === f?.food?._id
+              );
+
+              return (
+                <div key={f._id} className="flex items-center gap-3 py-1">
+                  <img
+                    src={currentFood?.foodImage}
+                    alt={currentFood?.foodName}
+                    className="w-8 h-8 object-cover rounded"
+                  />
+
+                  {/* NAME + QUANTITY */}
+                  <div className="flex justify-between w-full">
+                    <span>{currentFood?.foodName || "Unknown food"}</span>
+                    <span className="text-black">x {f.quantity}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="w-[160px] p-4">{createdAt?.slice(0, 10)}</div>
@@ -110,7 +151,3 @@ export default function OrderInfo({
     </div>
   );
 }
-
-// pending ----> #EF4444
-// delivered --> rgba(24, 186, 81, 0.50)
-// cancelled --> #E4E4E7

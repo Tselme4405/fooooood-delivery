@@ -5,6 +5,7 @@ import MapPin from "@/app/admin/_icons/MapPin";
 import { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 export default function DeliverLocation() {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function DeliverLocation() {
     setLocation(values.DeliveryLocation);
 
     localStorage.setItem("deliveryLocation", values.DeliveryLocation);
+    toast.success("successfully saved loaction");
 
     setOpen(false);
   };

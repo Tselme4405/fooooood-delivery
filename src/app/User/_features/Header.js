@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import HeaderIcon from "../../admin/_icons/HeaderIcon";
 import HeaderAccount from "./Account";
 import CartItems from "./CartItems";
@@ -7,6 +8,8 @@ import DeliverLocation from "./DeliveryLocation";
 
 export default function Header() {
   const token = localStorage.getItem("token");
+  const router = useRouter();
+
   return (
     <div className="w-full h-[172px] bg-[#18181B] flex flex-row justify-between items-center p-22">
       <div
@@ -33,10 +36,16 @@ export default function Header() {
             </div>
           ) : (
             <div className="flex flex-row gap-4">
-              <div className="cursor-pointer h-9 bg-white text-black flex justify-center items-center rounded-full px-3 py-2">
+              <div
+                onClick={() => router.push("/auth/signup")}
+                className="cursor-pointer h-9 bg-white text-black flex justify-center items-center rounded-full px-3 py-2"
+              >
                 Sign Up
               </div>
-              <div className="cursor-pointer h-9 bg-red-500 text-white flex items-center justify-center rounded-full px-3 py-2">
+              <div
+                onClick={() => router.push("/auth/login")}
+                className="cursor-pointer h-9 bg-red-500 text-white flex items-center justify-center rounded-full px-3 py-2"
+              >
                 Login
               </div>
             </div>

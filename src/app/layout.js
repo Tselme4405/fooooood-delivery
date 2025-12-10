@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter", // ➜ Inter font variable нэр
+  variable: "--font-inter",
 });
 
 const geistSans = Geist({

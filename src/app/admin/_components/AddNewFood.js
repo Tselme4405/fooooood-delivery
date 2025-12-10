@@ -6,6 +6,7 @@ import PlusIcon from "../_icons/plusIcon";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function AddNewFoodCard({ categoryId, categoryName }) {
   const [open, setOpen] = useState(false);
@@ -54,12 +55,12 @@ export default function AddNewFoodCard({ categoryId, categoryName }) {
         foodImage: imageUrl,
         category: categoryId,
       });
-
+      toast.success("Hool amilttai nemegdlee");
       setOpen(false);
       setPreview(null);
     } catch (err) {
       console.error(err);
-      alert("Failed to add food. Please try again.");
+      toast.error("hool nemehed aldaa garlaa , dahin oroldono uu");
     }
   };
 

@@ -5,6 +5,8 @@ import PlusIcon from "../_icons/plusIcon";
 import XIcon from "../_icons/XIcon";
 import QuantityMinusIcon from "../_icons/quantityMinusIcon";
 import QuantityPlusIcon from "../_icons/quantityPlusIcon";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function UserFoodCard({
   foodName,
@@ -15,6 +17,10 @@ export default function UserFoodCard({
 }) {
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [loginRequired, setLoginRequired] = useState(false);
+  const router = useRouter();
+
+  const token = localStorage.getItem("token");
 
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -22,6 +28,11 @@ export default function UserFoodCard({
   const totalPrice = foodPrice * quantity;
 
   const addToCart = () => {
+    if (!token) {
+      // toast.error("Ta newterj orno uu!");
+      setLoginRequired(true);
+      return;
+    }
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const exist = cart.find((item) => item._id === _id);
 
@@ -29,6 +40,7 @@ export default function UserFoodCard({
       exist.quantity += quantity;
     } else {
       cart.push({ _id, quantity });
+      toast.success("hool amjilttai sagsand nemegdlee");
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -71,7 +83,7 @@ export default function UserFoodCard({
               className="w-[377px] h-[364px] bg-cover rounded-xl"
             ></div>
 
-            <div className="w-[377px] h-[364px] flex flex-col bg-gray-100 p-3">
+            <div className="w-[377px] h-[364px] flex flex-col p-3">
               <div
                 onClick={() => setOpen(false)}
                 className="cursor-pointer w-9 h-9 border rounded-full border-[#E4E4E7] flex justify-center items-center self-end"
@@ -111,7 +123,7 @@ export default function UserFoodCard({
 
                   <button
                     onClick={addToCart}
-                    className="text-white bg-black w-full h-[44px] rounded-full"
+                    className="cursor-pointer text-white bg-black w-full h-[44px] rounded-full"
                   >
                     Add to Cart
                   </button>
@@ -119,6 +131,32 @@ export default function UserFoodCard({
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {loginRequired && (
+        <div>
+          {loginRequired && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+              <div className="bg-white flex flex-col p-6 gap-6 justify-center items-center">
+                <div className="text-[24px]">You need to log in first </div>
+                <div className="flex flex-row gap-4">
+                  <div
+                    onClick={() => router.push("/auth/login")}
+                    className="cursor-pointer py-2 text-white bg-black flex justify-center items-center rounded-md w-[182.5px]"
+                  >
+                    Login
+                  </div>
+
+                  <div
+                    onClick={() => router.push("/auth/signup")}
+                    className="cursor-pointer py-2 flex justify-center items-center border border-[#E4E4E7] rounded-md w-[182.5px]"
+                  >
+                    Sign up
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

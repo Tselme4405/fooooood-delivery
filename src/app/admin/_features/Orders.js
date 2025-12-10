@@ -22,7 +22,7 @@ export default function Orders() {
     getData();
   }, []);
   return (
-    <div>
+    <div className="relative">
       {/* <OrderInfo /> */}
       {ordersData.map((order) => (
         <OrderInfo

@@ -14,6 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function AdminFoodCard({
   foodName,
@@ -27,8 +29,8 @@ export default function AdminFoodCard({
   const [open, setOpen] = useState(false);
   const [foodId, setFoodId] = useState("");
   const [preview, setPreview] = useState(foodImage);
+  const router = useRouter();
 
-  // const [categoryData, setCategoryData] = useState([]);
   const id = _id;
   const foodSchema = Yup.object().shape({
     foodName: Yup.string().required("Food Name Required!"),
@@ -42,8 +44,9 @@ export default function AdminFoodCard({
     try {
       console.log(id);
       const res = await axios.delete(`http://localhost:1000/food/${id}`);
-      console.log("Food deleted successfully:", res.data);
+      toast.success("Hool amjilttai ustglaa");
       setOpen(false);
+      router.refresh();
     } catch (err) {
       console.log("error deleting food:", err);
     }
@@ -73,8 +76,6 @@ export default function AdminFoodCard({
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
-    // console.log(_id);
     try {
       const imageUrl = await uploadToCloudinary(values.foodImage);
 
@@ -83,42 +84,21 @@ export default function AdminFoodCard({
         foodPrice: values.foodPrice,
         foodIngredients: values.foodIngredients,
         foodImage: imageUrl,
-        category: values.category, // ← энэ байх ёстой
+        category: values.category,
         id: id,
       };
 
-      // const formData = new FormData();
-      // formData.append("foodName", values.foodName);
-      // formData.append("foodPrice", values.foodPrice);
-      // formData.append("foodIngredients", values.foodIngredients);
-      // formData.append("foodImage", values.foodImage);
-      // formData.append("id", id);
-      // console.log(formData);
       const res = await axios.put("http://localhost:1000/food", formData, {
         headers: { "Content-Type": "application/json" },
       });
 
-      // console.log("Food created:", res.data);
+      toast.success("amjilttai shineclegdlee");
       setOpen(false);
+      router.refresh();
     } catch (err) {
       console.log("Error |updating food:", err);
     }
   };
-
-  // const getCategories = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:1000/category");
-  //     setCategoryData(response.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // console.log(categoryData);
-
-  // useEffect(() => {
-  //   // eslint-disable-next-line react-hooks/set-state-in-effect
-  //   getCategories();
-  // }, []);
 
   return (
     <div className=" p-4 w-[270.75px] h-[241px] border border-[#E4E4E7] rounded-[20px] gap-5 flex flex-col">
@@ -195,19 +175,7 @@ export default function AdminFoodCard({
                 </div>
                 <div className="flex flex-row justify-between gap-2">
                   <div className="text-[14px]">Dish category</div>
-                  {/* <Select>
-                    <SelectTrigger className="w-[288px]">
-                      <SelectValue placeholder="Select a fruit" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Fruits</SelectLabel>
-                        {categoryData.categoryName.map((category) => (
-                          <SelectItem key={category._id} />
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select> */}
+
                   <Select
                     value={values.category}
                     onValueChange={(value) => setFieldValue("category", value)}

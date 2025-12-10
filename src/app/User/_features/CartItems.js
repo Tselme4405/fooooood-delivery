@@ -5,7 +5,7 @@ import CartIcon from "@/app/admin/_icons/ShoppingCart";
 import CartFoodCard from "../_components/CartFoodCard";
 import axios from "axios";
 import HandingDishIconRed from "../_icons/handinDishIconRed";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import OrderHistory from "./OrderHistory";
 
 const getDeliveryPrice = (amount) => (amount < 50000 ? 15000 : 7500);
@@ -43,7 +43,7 @@ export default function CartItems() {
   const handleOrder = async () => {
     const token = localStorage.getItem("token");
     if (!token) return alert("Ta newterj orno uu");
-    if (cartItems.length === 0) return alert("Cart empty!!!");
+    if (cartItems.length === 0) return toast.warn("Hool nemne uu!!");
 
     const itemsTotal = cartItems.reduce(
       (sum, i) => sum + i.foodPrice * i.quantity,
@@ -184,9 +184,7 @@ export default function CartItems() {
 
             {activeTab === "cart" && (
               <div className="flex flex-1 flex-col h-full w-full gap-4">
-                {/* ==== CART ITEMS ==== */}
-                <div className="flex flex-col overflow-y-auto bg-white rounded-xl p-4 gap-5 ">
-                  {/* ==== MY CART TITLE ==== */}
+                <div className="flex flex-col overflow-y-auto bg-white rounded-xl p-4 gap-5 h-full ">
                   <div className="text-[24px] font-bold text-[#71717A]">
                     My Cart
                   </div>
@@ -219,7 +217,6 @@ export default function CartItems() {
                     )}
                   </div>
 
-                  {/* Delivery location */}
                   <div className="bg-white rounded-md w-full flex-flex-col gap-2">
                     <div className="text-[20px] text-[#71717A] font-bold">
                       Delivery location
@@ -238,8 +235,7 @@ export default function CartItems() {
                   </div>
                 </div>
 
-                {/* ==== PAYMENT INFO ==== */}
-                <div className="w-full bg-white rounded-[20px] p-4 flex flex-col gap-5 font-bold">
+                <div className="w-full bg-white rounded-[20px] p-4 flex flex-col gap-5 font-bold h-[276px] mt-2">
                   <div className="text-[#71717A] text-[20px]">Payment info</div>
 
                   <div className="flex flex-col gap-2">
