@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ChevronsUpDown, ChevronDown } from "lucide-react";
 import { toast } from "react-toastify";
@@ -24,12 +24,11 @@ export default function OrderInfo({
     getOrders,
     selectedOrders,
     toggleSelectOrder,
+    refreshSignal,
   } = useOrders();
 
   const order = orders.find((o) => o._id === _id);
   const email = order?.userEmail;
-
-  const [currentStatus, setCurrentStatus] = useState(status);
   const [statusOpen, setStatusOpen] = useState(false);
   const statuses = ["pending", "delivered", "cancelled"];
 
@@ -38,7 +37,6 @@ export default function OrderInfo({
       await axios.put(`${BACK_END_URL}/orders/${_id}/status`, {
         status: newStatus,
       });
-      setCurrentStatus(newStatus);
       toast.success("Status updated");
       getOrders();
     } catch (err) {
@@ -104,15 +102,15 @@ export default function OrderInfo({
         <div className="w-[160px] flex items-center p-4 relative">
           <div
             className={`h-[32px] min-w-[94px] cursor-pointer flex items-center gap-[10px] border rounded-full px-[10px] ${
-              currentStatus === "pending"
+              status === "pending"
                 ? "border-[#EF4444]"
-                : currentStatus === "delivered"
+                : status === "delivered"
                 ? "border-[#18BA51]"
                 : ""
             }`}
             onClick={() => setStatusOpen(!statusOpen)}
           >
-            {currentStatus}
+            {status}
             <ChevronsUpDown />
           </div>
 

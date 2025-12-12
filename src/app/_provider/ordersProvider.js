@@ -14,6 +14,8 @@ export function OrdersProvider({ children }) {
   const itemsPerPage = 15;
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [sortType, setSortType] = useState(null);
+  const [refreshSignal, setRefreshSignal] = useState(0);
+  const [filterDates, setFilterDates] = useState({ start: null, end: null });
 
   const sortOrders = (orders, sortType) => {
     const sorted = [...orders];
@@ -51,6 +53,7 @@ export function OrdersProvider({ children }) {
         ...order,
         userEmail: order.user?.email || "Unknown",
       }));
+
       setOrders(ordersWithEmail);
     } catch (err) {
       console.log(err);
@@ -118,6 +121,12 @@ export function OrdersProvider({ children }) {
         setSelectedOrders,
         toggleSelectOrder,
         setSortType,
+        refreshSignal,
+        setRefreshSignal,
+        setFilterDates,
+        filterDates,
+        sortOrders,
+        sortType,
       }}
     >
       {children}
