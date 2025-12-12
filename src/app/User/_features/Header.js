@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import HeaderIcon from "../../admin/_icons/HeaderIcon";
 import HeaderAccount from "./Account";
@@ -7,15 +8,20 @@ import CartItems from "./CartItems";
 import DeliverLocation from "./DeliveryLocation";
 
 export default function Header() {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    // Only access localStorage in the browser
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }
+  }, []);
 
   return (
     <div className="w-full h-[172px] bg-[#18181B] flex flex-row justify-between items-center p-22">
-      <div
-        className="flex flex-row gap-3 items-center
-      "
-      >
+      <div className="flex flex-row gap-3 items-center">
         <div>
           <HeaderIcon />
         </div>
@@ -27,7 +33,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex flex-row items-center">
-        <div className="">
+        <div>
           {token ? (
             <div className="flex gap-3">
               <DeliverLocation />

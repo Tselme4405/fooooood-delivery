@@ -79,7 +79,7 @@ export default function UserFoodCard({
               onClick={() => setOpen(true)}
               className="w-11 h-11 rounded-full bg-white flex justify-center items-center"
             >
-              <PlusIcon className />
+              <PlusIcon />
             </div>
           ) : (
             <div
