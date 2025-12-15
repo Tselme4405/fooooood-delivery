@@ -28,7 +28,6 @@ export default function AdminFoodCard({
   _id,
 }) {
   const [open, setOpen] = useState(false);
-  const [foodId, setFoodId] = useState("");
   const [preview, setPreview] = useState(foodImage);
   const router = useRouter();
 
