@@ -246,7 +246,7 @@ export default function CartItems() {
                       <div className="text-[#71717A]">Items</div>
                       <div className="text-black">{itemsTotalAmount}₮</div>
                     </div>
-
+                    {/*  */}
                     <div className="flex justify-between">
                       <div className="text-[#71717A]">Shipping</div>
                       <div className="text-black">{deliveryPrice}₮</div>
