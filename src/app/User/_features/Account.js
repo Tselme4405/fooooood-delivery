@@ -70,8 +70,7 @@ export default function HeaderAccount() {
             className="bg-white rounded-xl shadow-lg w-[90%] max-w-sm p-6 flex flex-col gap-4"
           >
             <div className="text-gray-800 text-center text-[16px]">
-              Ta garahdaa itgeltei baina uu?? <br />
-              Tanii sags bolon hadgalsan hoolnuud ustah bolno!s
+              Та гарахдаа итгэлтэй байна уу? <br />
             </div>
 
             <div className="flex justify-center gap-4 mt-2">
@@ -79,13 +78,13 @@ export default function HeaderAccount() {
                 className="cursor-pointer bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 transition"
                 onClick={() => setConfirm(false)}
               >
-                No
+                Үгүй
               </button>
               <button
                 className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
                 onClick={handleLogout}
               >
-                Yes
+                Тийм
               </button>
             </div>
           </div>
